@@ -7,6 +7,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 #[ApiResource(
@@ -23,6 +25,8 @@ class Producto
 
     #[ORM\Column(length: 255)]
     #[Groups(['producto:read', 'producto:write'])]
+    #[Assert\NotBlank(message: 'El nombre no puede estar vacío')]
+    #[Assert\Length(min: 2, max: 255)]
     private ?string $nombre = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -31,10 +35,13 @@ class Producto
 
     #[ORM\Column(length: 100)]
     #[Groups(['producto:read', 'producto:write'])]
+    #[Assert\NotBlank(message: 'El código no puede estar vacío')]
+    #[Assert\Length(min: 2, max: 100)]
     private ?string $codigo = null;
 
     #[ORM\Column(length: 100)]
     #[Groups(['producto:read', 'producto:write'])]
+    #[Assert\NotBlank(message: 'La categoría no puede estar vacía')]
     private ?string $categoria = null;
 
     #[ORM\Column]

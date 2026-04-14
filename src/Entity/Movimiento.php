@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ApiResource(
@@ -24,14 +25,19 @@ class Movimiento
 
     #[ORM\Column(length: 50)]
     #[Groups(['movimiento:read', 'movimiento:write'])]
+    #[Assert\NotBlank(message: 'El tipo no puede estar vacío')]
+    #[Assert\Choice(choices: ['entrada', 'salida', 'transformacion'], message: 'El tipo debe ser entrada, salida o transformacion')]
     private ?string $tipo = null;
 
     #[ORM\Column]
     #[Groups(['movimiento:read', 'movimiento:write'])]
+    #[Assert\NotNull]
+    #[Assert\Positive(message: 'La cantidad debe ser un número positivo')]
     private ?int $cantidad = null;
 
     #[ORM\Column]
     #[Groups(['movimiento:read', 'movimiento:write'])]
+    #[Assert\NotNull(message: 'La fecha es obligatoria')]
     private ?\DateTimeImmutable $fecha = null;
 
     #[ORM\ManyToOne(inversedBy: 'movimientos')]

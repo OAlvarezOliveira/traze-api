@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 #[ApiResource(
@@ -26,6 +28,8 @@ class Proveedor
 
     #[ORM\Column(length: 255)]
     #[Groups(['proveedor:read', 'proveedor:write'])]
+    #[Assert\NotBlank(message: 'El nombre no puede estar vacío')]
+    #[Assert\Length(min: 2, max: 255)]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -34,10 +38,12 @@ class Proveedor
 
     #[ORM\Column(length: 100)]
     #[Groups(['proveedor:read', 'proveedor:write'])]
+    #[Assert\NotBlank(message: 'El país no puede estar vacío')]
     private ?string $pais = null;
 
     #[ORM\Column(length: 180, nullable: true)]
     #[Groups(['proveedor:read', 'proveedor:write'])]
+    #[Assert\Email(message: 'El email {{ value }} no es válido')]
     private ?string $email = null;
 
     #[ORM\Column(length: 50, nullable: true)]

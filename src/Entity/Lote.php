@@ -9,6 +9,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 #[ApiResource(
@@ -26,18 +28,24 @@ class Lote
 
     #[ORM\Column(length: 100)]
     #[Groups(['lote:read', 'lote:write'])]
+    #[Assert\NotBlank(message: 'El número de lote no puede estar vacío')]
     private ?string $numeroLote = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     #[Groups(['lote:read', 'lote:write'])]
+    #[Assert\NotNull(message: 'La fecha de fabricación es obligatoria')]
     private ?\DateTimeImmutable $fechaFabricacion = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     #[Groups(['lote:read', 'lote:write'])]
+    #[Assert\NotNull(message: 'La fecha de caducidad es obligatoria')]
+    #[Assert\GreaterThan(propertyPath: 'fechaFabricacion', message: 'La fecha de caducidad debe ser posterior a la de fabricación')]
     private ?\DateTimeImmutable $fechaCaducidad = null;
 
     #[ORM\Column]
     #[Groups(['lote:read', 'lote:write'])]
+    #[Assert\NotNull]
+    #[Assert\Positive(message: 'La cantidad debe ser un número positivo')]
     private ?int $cantidad = null;
 
     #[ORM\ManyToOne]
