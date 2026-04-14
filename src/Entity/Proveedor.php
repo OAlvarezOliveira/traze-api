@@ -7,31 +7,41 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
-
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['proveedor:read']],
+    denormalizationContext: ['groups' => ['proveedor:write']]
+)]
 #[ORM\Entity(repositoryClass: ProveedorRepository::class)]
 class Proveedor
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[Groups(['proveedor:read'])]
     #[ORM\Column]
     private ?int $id = null;
 
+
     #[ORM\Column(length: 255)]
+    #[Groups(['proveedor:read', 'proveedor:write'])]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['proveedor:read', 'proveedor:write'])]
     private ?string $contacto = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['proveedor:read', 'proveedor:write'])]
     private ?string $pais = null;
 
     #[ORM\Column(length: 180, nullable: true)]
+    #[Groups(['proveedor:read', 'proveedor:write'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['proveedor:read', 'proveedor:write'])]
     private ?string $telefono = null;
 
     /**

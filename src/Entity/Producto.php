@@ -6,30 +6,39 @@ use App\Repository\ProductoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource]
+
+#[ApiResource(
+    normalizationContext: ['groups' => ['producto:read']],
+    denormalizationContext: ['groups' => ['producto:write']]
+)]
 #[ORM\Entity(repositoryClass: ProductoRepository::class)]
 class Producto
 {
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Id, ORM\GeneratedValue, ORM\Column]
+    #[Groups(['producto:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['producto:read', 'producto:write'])]
     private ?string $nombre = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['producto:read', 'producto:write'])]
     private ?string $descripcion = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['producto:read', 'producto:write'])]
     private ?string $codigo = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['producto:read', 'producto:write'])]
     private ?string $categoria = null;
 
     #[ORM\Column]
+    #[Groups(['producto:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()

@@ -8,34 +8,45 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['lote:read']],
+    denormalizationContext: ['groups' => ['lote:write']]
+)]
 #[ORM\Entity(repositoryClass: LoteRepository::class)]
 class Lote
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[Groups(['lote:read'])]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['lote:read', 'lote:write'])]
     private ?string $numeroLote = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['lote:read', 'lote:write'])]
     private ?\DateTimeImmutable $fechaFabricacion = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['lote:read', 'lote:write'])]
     private ?\DateTimeImmutable $fechaCaducidad = null;
 
     #[ORM\Column]
+    #[Groups(['lote:read', 'lote:write'])]
     private ?int $cantidad = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['lote:read', 'lote:write'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Producto $producto = null;
 
     #[ORM\ManyToOne(inversedBy: 'lotes')]
+    #[Groups(['lote:read', 'lote:write'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Proveedor $proveedor = null;
 

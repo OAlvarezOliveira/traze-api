@@ -6,32 +6,41 @@ use App\Repository\MovimientoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
-
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['movimiento:read']],
+    denormalizationContext: ['groups' => ['movimiento:write']]
+)]
 #[ORM\Entity(repositoryClass: MovimientoRepository::class)]
 class Movimiento
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[Groups(['movimiento:read'])]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['movimiento:read', 'movimiento:write'])]
     private ?string $tipo = null;
 
     #[ORM\Column]
+    #[Groups(['movimiento:read', 'movimiento:write'])]
     private ?int $cantidad = null;
 
     #[ORM\Column]
+    #[Groups(['movimiento:read', 'movimiento:write'])]
     private ?\DateTimeImmutable $fecha = null;
 
     #[ORM\ManyToOne(inversedBy: 'movimientos')]
+    #[Groups(['movimiento:read', 'movimiento:write'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lote $lote = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['movimiento:read', 'movimiento:write'])]
     private ?string $descripcion = null;
 
     public function getId(): ?int
