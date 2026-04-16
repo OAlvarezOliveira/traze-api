@@ -24,7 +24,9 @@ private LoteRepository $lote;
 
     public function getResumen(int $productoId): array
     {
-        if($this->repo->find($productoId) === null){
+        $numerosLote  = [];
+        $producto = $this->repo->find($productoId);
+        if(!$producto ){
             throw new \Exception("Producto no encontrado");
         }
         $lotes = $this->lote->findBy(['producto' => $productoId]);
@@ -33,12 +35,15 @@ private LoteRepository $lote;
 
         foreach ($lotes as $lote) {
             $totalMovimientos += count($lote->getMovimientos());
+            $numerosLote [] = $lote->getNumeroLote();
+
         }
 
         return [
             'producto_id' => $productoId,
             'total_lotes' => $totalLotes,
-            'total_movimientos' => $totalMovimientos];
+            'total_movimientos' => $totalMovimientos,
+            'lotes' => $numerosLote];
 
     }
 }
