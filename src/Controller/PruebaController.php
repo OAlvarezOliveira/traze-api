@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\ProductoRepository;
+use App\Repository\LoteRepository;
 use App\Service\TrazabilidadService;
 use App\Service\ProductoService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,6 +32,14 @@ class PruebaController extends AbstractController {
     public function findByName(string $productoName , ProductoRepository  $repository){
 
         $resultados = $repository->findByName($productoName);
+        return $this->json($resultados);
+
+    }
+
+    #[Route('/productos/stock' ,name:'findProductsWithStock')]
+    public function findProductsWithStock(LoteRepository  $repository){
+
+        $resultados = $repository->findProductsWithStock();
         return $this->json($resultados);
 
     }

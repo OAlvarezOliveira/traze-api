@@ -30,13 +30,13 @@ class ProductoRepository extends ServiceEntityRepository
                 ->getResult();
         }
 
-    //    public function findOneBySomeField($value): ?Producto
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+         public function findByCategoryStock($value): string
+        {
+              return $this->createQueryBuilder('p')
+                  ->join('p.lotes', 'l')
+                  ->andWhere('l.cantidad > 0')
+                  ->orderBy('p.id', 'ASC')
+                  ->getQuery()
+                  ->getResult();
+    }
 }

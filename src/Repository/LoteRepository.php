@@ -16,20 +16,20 @@ class LoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Lote::class);
     }
 
-    //    /**
-    //     * @return Lote[] Returns an array of Lote objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('l.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        /**
+         * @return Lote[] Returns an array of Lote objects
+        */
+       public function findProductsWithStock (): array
+        {
+            return $this->createQueryBuilder('l')
+                ->select('p.id, p.nombre, p.codigo, p.categoria')
+                ->join('l.producto', 'p')
+                ->andWhere('l.cantidad > 0')
+                ->distinct()
+                ->orderBy('p.nombre', 'ASC')
+                ->getQuery()
+               ->getResult();
+       }
 
     //    public function findOneBySomeField($value): ?Lote
     //    {
