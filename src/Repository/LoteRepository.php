@@ -30,14 +30,4 @@ class LoteRepository extends ServiceEntityRepository
                 ->getQuery()
                ->getResult();
        }
-
-    //    public function findOneBySomeField($value): ?Lote
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

@@ -43,4 +43,11 @@ class PruebaController extends AbstractController {
         return $this->json($resultados);
 
     }
+    #[Route('/productos/resumenCategoria' ,name:'summaryByCategory')]
+    public function summaryByCategory(ProductoRepository  $repository){
+
+        $resultados = $repository->summaryByCategory();
+        return $this->json($resultados);
+
+    }
 }

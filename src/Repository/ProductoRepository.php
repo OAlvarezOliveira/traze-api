@@ -38,5 +38,14 @@ class ProductoRepository extends ServiceEntityRepository
                   ->orderBy('p.id', 'ASC')
                   ->getQuery()
                   ->getResult();
-    }
+       }
+        public function summaryByCategory (): array
+        {
+            return $this->createQueryBuilder('p')
+                ->select('p.categoria, COUNT(p.id) as total')
+                ->groupBy('p.categoria')
+                ->orderBy('p.categoria', 'ASC')
+                ->getQuery()
+                ->getResult();
+        }
 }
