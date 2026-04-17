@@ -1,37 +1,40 @@
 # traze-api
 
-REST API for food traceability management, built with **Symfony 7** and **API Platform 4**. Tracks products, batches, suppliers and movements across the supply chain, complying with EU Regulation CE 178/2002 on food traceability.
+API REST para la gestión de trazabilidad alimentaria, desarrollada con **Symfony 7** y **API Platform 4**.
+
+El sistema permite registrar y consultar el ciclo de vida de los productos alimentarios — desde el proveedor hasta los movimientos de cada lote — siguiendo los principios de trazabilidad establecidos en el **Reglamento (CE) nº 178/2002** del Parlamento Europeo, que exige a todas las empresas del sector alimentario disponer de sistemas de trazabilidad desde el año 2005.
 
 ---
 
-## Tech Stack
+## Stack tecnológico
 
-| Layer | Technology |
-|-------|-----------|
-| Language | PHP 8.2 |
+| Capa | Tecnología |
+|------|-----------|
+| Lenguaje | PHP 8.2 |
 | Framework | Symfony 7.4 |
 | API | API Platform 4.3 |
 | ORM | Doctrine ORM |
-| Database | PostgreSQL 18 |
-| Auth | JWT (lexik/jwt-authentication-bundle) |
-| Validation | Symfony Validator |
+| Base de datos | PostgreSQL 18 |
+| Autenticación | JWT (lexik/jwt-authentication-bundle) |
+| Validación | Symfony Validator |
 
 ---
 
-## Features
+## Funcionalidades
 
-- Full CRUD REST API for `Producto`, `Proveedor`, `Lote` and `Movimiento`
-- JSON-LD / Hydra responses following API Platform standards
-- JWT authentication — stateless, token-based
-- Serialization groups — fine-grained control over exposed fields
-- Constraint validation with meaningful error messages (422)
-- Custom Doctrine queries — search, date ranges, aggregations, joins
-- CORS configured for Angular frontend integration
-- Console command for user management (`app:create-user`)
+- CRUD completo para `Producto`, `Proveedor`, `Lote` y `Movimiento`
+- Respuestas en formato JSON-LD / Hydra siguiendo el estándar de API Platform
+- Autenticación con JWT — stateless, basada en tokens
+- Grupos de serialización para controlar los campos expuestos en cada operación
+- Validaciones con mensajes de error descriptivos (HTTP 422)
+- Consultas personalizadas con Doctrine: búsqueda por texto, rangos de fechas, agregaciones y joins
+- CORS configurado para integración con el frontend Angular
+- Comando de consola para la creación de usuarios (`app:create-user`)
+- Documentación interactiva automática en `/api` (Swagger UI)
 
 ---
 
-## Data Model
+## Modelo de datos
 
 ```
 Proveedor ──┐
@@ -39,14 +42,14 @@ Proveedor ──┐
 Producto ───┘
 ```
 
-- **Producto** — food item with name, code and category
-- **Proveedor** — supplier with contact details
-- **Lote** — batch linking a product and supplier, with manufacturing and expiry dates
-- **Movimiento** — traceability event (entrada / salida / transformacion) linked to a batch
+- **Producto** — artículo alimentario con nombre, código y categoría
+- **Proveedor** — empresa suministradora con datos de contacto
+- **Lote** — agrupación de un producto de un proveedor, con fechas de fabricación y caducidad
+- **Movimiento** — evento de trazabilidad (entrada / salida / transformacion) asociado a un lote
 
 ---
 
-## Requirements
+## Requisitos
 
 - PHP 8.2+
 - Composer
@@ -55,81 +58,90 @@ Producto ───┘
 
 ---
 
-## Installation
+## Instalación
 
 ```bash
-# Clone the repository
+# Clonar el repositorio
 git clone https://github.com/OAlvarezOliveira/traze-api.git
 cd traze-api
 
-# Install dependencies
+# Instalar dependencias
 composer install
 
-# Configure environment
+# Configurar el entorno
 cp .env .env.local
-# Edit .env.local with your database credentials and JWT passphrase
+# Editar .env.local con las credenciales de la base de datos
 
-# Generate JWT keys
-OPENSSL_CONF=/path/to/openssl.cnf php bin/console lexik:jwt:generate-keypair
+# Generar las claves JWT
+OPENSSL_CONF=/ruta/a/openssl.cnf php bin/console lexik:jwt:generate-keypair
 
-# Create database and run migrations
+# Crear la base de datos y ejecutar migraciones
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 
-# Create a user
-php bin/console app:create-user user@example.com yourpassword
+# Crear un usuario
+php bin/console app:create-user usuario@ejemplo.com contraseña
 
-# Start the development server
+# Arrancar el servidor de desarrollo
 symfony serve --no-tls
 ```
 
 ---
 
-## API Usage
+## Uso de la API
 
-### Authentication
+### Autenticación
 
 ```bash
-# Login — get JWT token
+# Login — obtener token JWT
 POST /api/login
 Content-Type: application/json
 
 {
-  "email": "user@example.com",
-  "password": "yourpassword"
+  "email": "usuario@ejemplo.com",
+  "password": "contraseña"
 }
 
-# Response
+# Respuesta
 {
   "token": "eyJ0eXAiOiJKV1Qi..."
 }
 ```
 
-All `/api/*` endpoints require the token in the Authorization header:
+Todos los endpoints `/api/*` requieren el token en la cabecera:
 
 ```
 Authorization: Bearer <token>
 ```
 
-### Endpoints
+### Endpoints disponibles
 
-| Method | Endpoint | Description |
+| Método | Endpoint | Descripción |
 |--------|----------|-------------|
-| GET | `/api/productos` | List all products |
-| POST | `/api/productos` | Create a product |
-| GET | `/api/productos/{id}` | Get a product |
-| PATCH | `/api/productos/{id}` | Update a product |
-| DELETE | `/api/productos/{id}` | Delete a product |
-| GET | `/api/proveedors` | List all suppliers |
-| POST | `/api/proveedors` | Create a supplier |
-| GET | `/api/lotes` | List all batches |
-| POST | `/api/lotes` | Create a batch |
-| GET | `/api/movimientos` | List all movements |
-| POST | `/api/movimientos` | Create a movement |
+| GET | `/api/productos` | Listar todos los productos |
+| POST | `/api/productos` | Crear un producto |
+| GET | `/api/productos/{id}` | Obtener un producto |
+| PATCH | `/api/productos/{id}` | Actualizar un producto |
+| DELETE | `/api/productos/{id}` | Eliminar un producto |
+| GET | `/api/proveedors` | Listar todos los proveedores |
+| POST | `/api/proveedors` | Crear un proveedor |
+| GET | `/api/proveedors/{id}` | Obtener un proveedor |
+| PATCH | `/api/proveedors/{id}` | Actualizar un proveedor |
+| DELETE | `/api/proveedors/{id}` | Eliminar un proveedor |
+| GET | `/api/lotes` | Listar todos los lotes |
+| POST | `/api/lotes` | Crear un lote |
+| GET | `/api/lotes/{id}` | Obtener un lote |
+| PATCH | `/api/lotes/{id}` | Actualizar un lote |
+| DELETE | `/api/lotes/{id}` | Eliminar un lote |
+| GET | `/api/movimientos` | Listar todos los movimientos |
+| POST | `/api/movimientos` | Crear un movimiento |
+| GET | `/api/movimientos/{id}` | Obtener un movimiento |
+| PATCH | `/api/movimientos/{id}` | Actualizar un movimiento |
+| DELETE | `/api/movimientos/{id}` | Eliminar un movimiento |
 
-Full interactive documentation available at `/api` (Swagger UI).
+La documentación interactiva completa está disponible en `/api`.
 
-### Example — Create a product
+### Ejemplo — Crear un producto
 
 ```bash
 curl -X POST http://127.0.0.1:8000/api/productos \
@@ -143,7 +155,7 @@ curl -X POST http://127.0.0.1:8000/api/productos \
   }'
 ```
 
-### Example — Create a batch
+### Ejemplo — Crear un lote
 
 ```bash
 curl -X POST http://127.0.0.1:8000/api/lotes \
@@ -161,27 +173,27 @@ curl -X POST http://127.0.0.1:8000/api/lotes \
 
 ---
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 src/
-├── Controller/       # HTTP controllers (auth, custom endpoints)
-├── Entity/           # Doctrine entities (Producto, Proveedor, Lote, Movimiento, User)
-├── Repository/       # Custom Doctrine queries
-├── Service/          # Business logic (TrazabilidadService, ProductoService)
-└── Command/          # Console commands (CreateUserCommand)
+├── Controller/       # Controllers HTTP (autenticación, endpoints personalizados)
+├── Entity/           # Entidades Doctrine (Producto, Proveedor, Lote, Movimiento, User)
+├── Repository/       # Consultas personalizadas Doctrine
+├── Service/          # Lógica de negocio (TrazabilidadService, ProductoService)
+└── Command/          # Comandos de consola (CreateUserCommand)
 ```
 
 ---
 
 ## Frontend
 
-The Angular 21 frontend for this API is available at:  
+El frontend Angular 21 para esta API está disponible en:  
 **[github.com/OAlvarezOliveira/traze-front](https://github.com/OAlvarezOliveira/traze-front)**
 
 ---
 
-## Author
+## Autor
 
-**Oscar Álvarez** — DAM Student  
+**Oscar Álvarez** — Estudiante DAM  
 [github.com/OAlvarezOliveira](https://github.com/OAlvarezOliveira)
