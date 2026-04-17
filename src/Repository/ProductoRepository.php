@@ -16,20 +16,19 @@ class ProductoRepository extends ServiceEntityRepository
         parent::__construct($registry, Producto::class);
     }
 
-    //    /**
-    //     * @return Producto[] Returns an array of Producto objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        /**
+        * @return Producto[] Returns an array of Producto objects
+        */
+        public function findByName($value): array
+       {
+            return $this->createQueryBuilder('p')
+                ->andWhere('LOWER(p.nombre) LIKE :val')
+                ->setParameter('val', '%' . strtolower($value) . '%')
+                ->orderBy('p.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        }
 
     //    public function findOneBySomeField($value): ?Producto
     //    {

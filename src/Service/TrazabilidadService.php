@@ -44,6 +44,5 @@ private LoteRepository $lote;
             'total_lotes' => $totalLotes,
             'total_movimientos' => $totalMovimientos,
             'lotes' => $numerosLote];
-
     }
 }

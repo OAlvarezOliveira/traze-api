@@ -27,4 +27,11 @@ class PruebaController extends AbstractController {
         return $this->json($resultados);
 
     }
+    #[Route('/buscar/{productoName}' ,name:'findByName')]
+    public function findByName(string $productoName , ProductoRepository  $repository){
+
+        $resultados = $repository->findByName($productoName);
+        return $this->json($resultados);
+
+    }
 }
