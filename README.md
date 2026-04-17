@@ -116,6 +116,8 @@ Authorization: Bearer <token>
 
 ### Endpoints disponibles
 
+#### CRUD — Generados automáticamente por API Platform
+
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
 | GET | `/api/productos` | Listar todos los productos |
@@ -138,6 +140,17 @@ Authorization: Bearer <token>
 | GET | `/api/movimientos/{id}` | Obtener un movimiento |
 | PATCH | `/api/movimientos/{id}` | Actualizar un movimiento |
 | DELETE | `/api/movimientos/{id}` | Eliminar un movimiento |
+
+#### Consultas personalizadas
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/consultas/resumen-categoria` | Número de productos por categoría |
+| GET | `/api/consultas/con-stock` | Productos con lotes disponibles |
+| GET | `/api/consultas/trazabilidad/{id}` | Resumen de trazabilidad de un producto |
+| GET | `/api/consultas/buscar/{texto}` | Búsqueda de productos por nombre |
+| GET | `/api/consultas/categoria/{categoria}` | Productos filtrados por categoría |
+| GET | `/api/consultas/por-fechas/{inicio}/{fin}` | Productos por rango de fechas |
 
 La documentación interactiva completa está disponible en `/api`.
 
