@@ -50,4 +50,11 @@ class PruebaController extends AbstractController {
         return $this->json($resultados);
 
     }
+    #[Route('/productos/buscaPorFechas/{fechaInicio}/{fechaFin}' ,name:'findByDate')]
+    public function findByDate(string $fechaInicio , string $fechaFin ,ProductoRepository  $repository){
+
+        $resultados = $repository->findByDate($fechaInicio, $fechaFin);
+        return $this->json($resultados);
+
+    }
 }

@@ -48,4 +48,16 @@ class ProductoRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
         }
+
+    public function findByDate($inicio , $fin): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.codigo','p.nombre')
+            ->andWhere('p.createdAt BETWEEN :inicio AND :fin')
+            ->setParameter('inicio', $inicio)
+            ->setParameter('fin', $fin)
+            ->orderBy('p.codigo', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
