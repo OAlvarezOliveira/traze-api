@@ -1,9 +1,9 @@
 # traze-api
+Desarrollo de API REST para la gestión de trazabilidad alimentaria, permitiendo el seguimiento completo del ciclo de vida de productos y lotes dentro de la cadena de suministro.
 
-API REST para la gestión de trazabilidad alimentaria, desarrollada con **Symfony 7** y **API Platform 4**.
+Implementada con Symfony 7 y API Platform 4, orientada a garantizar la integridad de los datos y cumplir con los requisitos normativos del Reglamento (CE) nº 178/2002.
 
-El sistema permite registrar y consultar el ciclo de vida de los productos alimentarios — desde el proveedor hasta los movimientos de cada lote — siguiendo los principios de trazabilidad establecidos en el **Reglamento (CE) nº 178/2002** del Parlamento Europeo, que exige a todas las empresas del sector alimentario disponer de sistemas de trazabilidad desde el año 2005.
-
+El sistema permite registrar proveedores, productos y movimientos, facilitando la auditoría y control de la trazabilidad en entornos reales.
 ---
 
 ## Stack tecnológico
